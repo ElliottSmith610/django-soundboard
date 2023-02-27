@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
 rooms = [
     {'id': 1, 'name': 'Fridays With Pewdiepie'},
@@ -12,3 +13,6 @@ def home(request):
 def soundboard(request):
     context = {'rooms': rooms}
     return render(request, 'base/home.html', context)
+
+def test(request):
+    return HttpResponse("Test")
