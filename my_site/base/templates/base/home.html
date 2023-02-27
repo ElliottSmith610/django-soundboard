@@ -3,10 +3,11 @@
 
 <h1>HOMEPAGE</h1>
 
-{% for room in rooms %}
-<p>ID: {{ room.id }}</p> 
-<p>{{ room.name }}</p>  
-<hr>
-{% endfor %}
-
+<div>
+    {% for sound in sounds %}
+    <div>
+        <p>{{sound.person}} -- <a href="{% url 'individual_clip' sound.id %}">{{sound.title}}</a></p>
+    </div>
+    {% endfor %}
+</div>
 {% endblock content %}
