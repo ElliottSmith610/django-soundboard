@@ -22,7 +22,7 @@ class SoundClip(models.Model):
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     soundclip = models.ForeignKey(SoundClip, on_delete=models.CASCADE)
-    body = models.TextField
+    body = models.TextField()
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
