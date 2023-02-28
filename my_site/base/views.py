@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.contrib import messages
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from .models import SoundClip, Message, Person
 from .forms import MessageForm, SoundclipForm
@@ -13,9 +15,13 @@ def home(request):
     return redirect('soundboard')
 
 def loginPage(request):
+    page = 'login'
 
+    if request.user.is_authenticated:
+        return redirect('home')
+    
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
 
         try:
@@ -31,12 +37,32 @@ def loginPage(request):
                 messages.warning(request, 'Username OR password does not exist')
         
 
-    context = {}
+    context = {'page': page}
     return render(request, 'base/login_register.html', context)
 
 def logoutUser(request):
     logout(request)
     return redirect('home')
+
+def registerUser(request):
+    page = 'register'
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            # commit=false 'freezes' the saved user object so we can tinker with additional parameters
+            user = form.save(commit=False) 
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'An error occurred during registration')
+
+
+    context = {'page': page, 'form': form}
+    return render(request, 'base/login_register.html', context)
 
 def soundboard(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
@@ -59,7 +85,7 @@ def soundboard(request):
 
 def individual_clip(request, pk):
     sound = SoundClip.objects.get(id=pk)
-    comments = None #Message.objects.filter(sound)
+    comments = sound.message_set.all()
     form = MessageForm()
 
     if request.method == 'POST':
@@ -74,10 +100,11 @@ def individual_clip(request, pk):
     context = {
         'sound': sound,
         'comments': comments,
-        'form': form
+        'form': form,
         }
     return render(request, 'base/clip_card.html', context)
 
+@login_required(login_url='/login')
 def editClip(request, pk):
     soundclip = SoundClip.objects.get(id=pk)
     form = SoundclipForm(instance=soundclip)
@@ -91,6 +118,7 @@ def editClip(request, pk):
     context = {'title':'Edit Clip', 'form': form}
     return render(request, 'base/edit.html', context)
 
+@login_required(login_url='/login')
 def deleteClip(request, pk):
     soundclip = SoundClip.objects.get(id=pk)
 
@@ -101,6 +129,7 @@ def deleteClip(request, pk):
     context = {'obj': soundclip}
     return render(request, 'base/delete.html', context)
 
+@login_required(login_url='/login')
 def uploadClip(request):
     form = SoundclipForm()
 
