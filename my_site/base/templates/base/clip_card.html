@@ -1,31 +1,72 @@
 {% extends 'main.html' %}
 {% block content %}
 
-<h1>SOUNDCLIP</h1>
+<style>
+    .clip-container {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+</style>
 
-<div>
-    <p>{{ sound.title }}</p>
-    <p>{{ sound.description }}</p>
-    <p>{{ sound.person }}</p>
-    <p>{{ sound.location }}</p>
-</div>
-{# if user.is_admin then this shows #}
-<a href="{% url 'edit' sound.id %}">Edit</a>
-<a href="{% url 'delete' sound.id %}">Delete</a>
-{# endif #}
-{% for comment in comments %}
-<hr>
-{{ comment.body }}
-{% endfor %}
-<hr>
-{{sound.message}}
-<div>
-    <form action="" method="post">
-        {% csrf_token %}
-        <!-- {{form.body}} <br> -->
-        {{ form.as_p }}
-        <input type="submit" value="Submit">
-    </form>
-</div>
+<div class="clip-container">   
+    <div>
 
+        <h1>SOUNDCLIP</h1>
+
+        <div>
+            <p>{{ sound.title }}</p>
+            <p>{{ sound.description }}</p>
+            <p>{{ sound.person }}</p>
+            <p>{{ sound.location }}</p>
+        </div>
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'edit' sound.id %}">Edit</a>
+        <a href="{% url 'delete-clip' sound.id %}">Delete</a>
+        {% endif %}
+
+        <div class="comment-section">
+            {% for comment in comments %}
+                <div>
+                    <hr>
+                    
+                    <small>
+                        @{{ comment.user|title}}  {{ comment.created|timesince }} ago
+                        {% if request.user == comment.user %}
+                        <a href="{% url 'delete-comment' comment.id %}">Delete</a>
+                        {% endif %}
+                    </small>
+                    <p>{{ comment }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <hr>
+
+        {% if request.user.is_authenticated %}
+        <div class="comment-form">
+            <form action="" method="post">
+                {% csrf_token %}
+                <!-- {{form.body}} <br> -->
+                <!-- {{ form.as_p }} -->
+                <input type="text" name="body" placeholder="Write your comment here...">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+    <div>
+        {% if commenters %}
+        <h3>Commenters</h3>
+        <hr>
+        {% endif %}
+
+        {% for user in commenters %}
+        <div>
+            <p>@{{user.username|title}}</p>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
 {% endblock content %}

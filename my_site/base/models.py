@@ -14,6 +14,9 @@ class SoundClip(models.Model):
     description = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=300)
     # file = models.FileField
+    commenters = models.ManyToManyField(User, related_name='commenters', blank=True) ###
+    # If User was already being used by another key, eg person
+    # commenters = models.ManyToManyField(User, related_name='commenters', blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 

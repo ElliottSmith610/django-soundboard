@@ -86,12 +86,14 @@ def soundboard(request):
 def individual_clip(request, pk):
     sound = SoundClip.objects.get(id=pk)
     # To get a child of an object, use lowercase starting letter
-    comments = sound.message_set.all()
+    comments = sound.message_set.all() # many2one use _set.all()
+    commenters = sound.commenters.all() # many2many can just use .all()
     form = MessageForm()
 
     if request.method == 'POST':
         # form = MessageForm(request.POST)
         # form.user
+
         if request.POST.get('body') != '':
             message = Message.objects.create(
                 user=request.user,
@@ -99,14 +101,28 @@ def individual_clip(request, pk):
                 body=request.POST.get('body')
             )
             #message.save()
+            sound.commenters.add(request.user)
             return redirect('individual_clip', pk=sound.id)
 
     context = {
         'sound': sound,
         'comments': comments,
+        'commenters': commenters,
         'form': form,
         }
     return render(request, 'base/clip_card.html', context)
+
+@login_required(login_url='/login')
+def deleteComment(request, pk):
+    comment = Message.objects.get(id=pk)
+
+
+    if request.method == 'POST':
+        comment.delete()
+        return redirect('home')
+    
+    context = {'obj': comment}
+    return render(request, 'base/delete.html', context)
 
 @login_required(login_url='/login')
 def editClip(request, pk):
