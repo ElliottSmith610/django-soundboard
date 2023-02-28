@@ -33,10 +33,30 @@ def individual_clip(request, pk):
         if form.is_valid():
             print(request.POST)
             form.save()
-            return redirect('home')
+            return redirect('home') # TODO: reload page with comments
 
-    context = {'sound': sound, 'comments': comments, 'form': form}
+    context = {
+        'sound': sound,
+        'comments': comments,
+        'form': form
+        }
     return render(request, 'base/clip_card.html', context)
+
+def editClip(request, pk):
+    soundclip = SoundClip.objects.get(id=pk)
+    form = SoundclipForm(instance=soundclip)
+
+    if request.method == 'POST':
+        form = SoundclipForm(request.POST, instance=soundclip)
+        if form.is_valid():
+            form.save()
+            return redirect('individual_clip', pk=soundclip.id)
+        
+    context = {'form': form}
+    return render(request, 'base/edit.html', context)
+
+def uploadClip(request):
+    pass
 
 def test(request):
     return HttpResponse("Test")

@@ -9,6 +9,7 @@
     <p>{{ sound.person }}</p>
     <p>{{ sound.location }}</p>
 </div>
+<a href="{% url 'edit' sound.id %}">Edit</a>
 {% for comment in comments %}
 <hr>
 {{ comment.body }}
