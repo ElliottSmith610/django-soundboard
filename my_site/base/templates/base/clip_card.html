@@ -9,5 +9,19 @@
     <p>{{ sound.person }}</p>
     <p>{{ sound.location }}</p>
 </div>
+{% for comment in comments %}
+<hr>
+{{ comment.body }}
+{% endfor %}
+<hr>
+{{sound.message}}
+<div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <!-- {{form.body}} <br> -->
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+    </form>
+</div>
 
 {% endblock content %}
