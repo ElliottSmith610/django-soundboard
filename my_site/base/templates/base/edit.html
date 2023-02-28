@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 {% block content %}
-<h1>Update Clip</h1>
+<h1>{{title}}</h1>
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
