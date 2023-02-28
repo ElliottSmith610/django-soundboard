@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from .models import SoundClip, Message, Person
 from .forms import MessageForm, SoundclipForm
 from django.http import HttpResponse
@@ -10,12 +11,19 @@ def home(request):
 def soundboard(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
 
-    sounds = SoundClip.objects.filter(person__name__icontains=q)
+    sounds = SoundClip.objects.filter(
+        # | used for or statements, & for and
+        # Returns searches if it matches a person or a title
+        Q(person__name__icontains=q) | 
+        Q(title__icontains=q)
+        )
     person = Person.objects.all()
+    sound_count = sounds.count()
 
     context = {
         'sounds': sounds,
         'people': person,
+        'sound_count': sound_count,
         }
     return render(request, 'base/home.html', context)
 

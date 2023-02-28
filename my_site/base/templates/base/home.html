@@ -26,6 +26,7 @@
 
     <div>
         <h1>HOMEPAGE</h1>
+        <p>{{ sound_count }} soundclips</p>
         {% for sound in sounds %}
         <div>
             <p>{{sound.person}} -- <a href="{% url 'individual_clip' sound.id %}">{{sound.title}}</a></p>
