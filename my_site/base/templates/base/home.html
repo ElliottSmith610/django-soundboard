@@ -1,13 +1,37 @@
 {% extends 'main.html' %}
 {% block content %}
 
-<h1>HOMEPAGE</h1>
+<style>
+    .home-container {
+        display: grid;
+        grid-template-columns: 1fr 4fr;
+    }
+</style>
 
-<div>
-    {% for sound in sounds %}
+<div class="home-container">
+    
+
     <div>
-        <p>{{sound.person}} -- <a href="{% url 'individual_clip' sound.id %}">{{sound.title}}</a></p>
+        <h3>Browse Clips</h3>
+        <hr>
+        <div>
+            <a href="{% url 'soundboard' %}">All</a>
+        </div>
+        {% for person in people %}
+        <div>
+            <a href="{% url 'soundboard' %}?q={{person}}">{{person}}</a>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
+
+    <div>
+        <h1>HOMEPAGE</h1>
+        {% for sound in sounds %}
+        <div>
+            <p>{{sound.person}} -- <a href="{% url 'individual_clip' sound.id %}">{{sound.title}}</a></p>
+        </div>
+        {% endfor %}
+    </div>
+
 </div>
 {% endblock content %}
