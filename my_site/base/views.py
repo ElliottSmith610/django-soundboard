@@ -55,6 +55,14 @@ def editClip(request, pk):
     context = {'form': form}
     return render(request, 'base/edit.html', context)
 
+def deleteClip(request, pk):
+    soundclip = SoundClip.objects.get(id=pk)
+    if request.method == 'POST':
+        soundclip.delete()
+        return redirect('home')
+    context = {'obj': soundclip}
+    return render(request, 'base/delete.html', context)
+
 def uploadClip(request):
     pass
 

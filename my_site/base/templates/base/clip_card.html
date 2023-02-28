@@ -9,7 +9,10 @@
     <p>{{ sound.person }}</p>
     <p>{{ sound.location }}</p>
 </div>
+{# if user.is_admin then this shows #}
 <a href="{% url 'edit' sound.id %}">Edit</a>
+<a href="{% url 'delete' sound.id %}">Delete</a>
+{# endif #}
 {% for comment in comments %}
 <hr>
 {{ comment.body }}
