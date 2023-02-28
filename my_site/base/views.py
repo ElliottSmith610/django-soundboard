@@ -85,17 +85,21 @@ def soundboard(request):
 
 def individual_clip(request, pk):
     sound = SoundClip.objects.get(id=pk)
+    # To get a child of an object, use lowercase starting letter
     comments = sound.message_set.all()
     form = MessageForm()
 
     if request.method == 'POST':
-        form = MessageForm(request.POST)
-        # TODO: Make the soundclip value, the current soundclip, and the user as current user
-
-        if form.is_valid():
-            print(request.POST)
-            form.save()
-            return redirect('home') # TODO: reload page with comments
+        # form = MessageForm(request.POST)
+        # form.user
+        if request.POST.get('body') != '':
+            message = Message.objects.create(
+                user=request.user,
+                soundclip=sound,
+                body=request.POST.get('body')
+            )
+            #message.save()
+            return redirect('individual_clip', pk=sound.id)
 
     context = {
         'sound': sound,
