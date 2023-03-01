@@ -75,11 +75,13 @@ def soundboard(request):
         )
     person = Person.objects.all()
     sound_count = sounds.count()
+    sound_messages = Message.objects.all()[:10]
 
     context = {
         'sounds': sounds,
         'people': person,
         'sound_count': sound_count,
+        'sound_messages': sound_messages,
         }
     return render(request, 'base/home.html', context)
 
