@@ -75,7 +75,9 @@ def soundboard(request):
         )
     person = Person.objects.all()
     sound_count = sounds.count()
-    sound_messages = Message.objects.all()[:10]
+    sound_messages = Message.objects.filter(
+        Q(soundclip__person__name__icontains=q)
+        )[:5]
 
     context = {
         'sounds': sounds,
