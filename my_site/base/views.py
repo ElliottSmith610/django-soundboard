@@ -116,6 +116,15 @@ def individual_clip(request, pk):
         }
     return render(request, 'base/clip_card.html', context)
 
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    people = Person.objects.all()
+    comments = user.message_set.all()
+    
+    context = {'user': user, 'sound_messages': comments, 
+               'people': people,}
+    return render(request, 'base/profile.html', context)
+
 @login_required(login_url='/login')
 def deleteComment(request, pk):
     comment = Message.objects.get(id=pk)

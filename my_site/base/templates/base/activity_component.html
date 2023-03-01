@@ -2,7 +2,7 @@
 <hr>
 {% for comment in sound_messages %}
 <div>
-    <small>{{comment.user|title}}, {{comment.created|timesince }} ago</small>
+    <small><a href="{% url 'user-profile' comment.user.id %}">{{comment.user|title}}</a>, {{comment.created|timesince }} ago</small>
     <small>in <a href="{% url 'individual_clip' comment.soundclip.id %}">{{comment.soundclip}}</a></small>
     
     

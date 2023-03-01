@@ -9,6 +9,8 @@ urlpatterns = [
     path('logout/', views.logoutUser, name="logout"),
     path('register/', views.registerUser, name="register"),
 
+    path('profile/<int:pk>', views.userProfile, name='user-profile'),
+
     path('soundboard/', views.soundboard, name="soundboard"),
     path('soundboard/<int:pk>/', views.individual_clip, name="individual_clip"),
     path('soundboard/<int:pk>/edit/', views.editClip, name="edit"),

@@ -2,7 +2,7 @@
 <div>
     <hr>
     <small>
-        @{{ comment.user|title}} {{ comment.created|timesince }} ago 
+        <a href="{% url 'user-profile' comment.user.id %}">@{{ comment.user|title}}</a> {{ comment.created|timesince }} ago 
         {% if request.user == comment.user %}
         <a href="{% url 'delete-comment' comment.id %}">Delete</a>
         {% endif %}

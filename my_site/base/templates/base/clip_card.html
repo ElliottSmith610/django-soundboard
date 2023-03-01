@@ -50,7 +50,7 @@
 
         {% for user in commenters %}
         <div>
-            <p>@{{user.username|title}}</p>
+            <a href="{% url 'user-profile' user.id %}">@{{user.username|title}}</a>
         </div>
         {% endfor %}
 
