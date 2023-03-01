@@ -1,0 +1,10 @@
+<h3>Browse Clips</h3>
+<hr>
+<div>
+    <a href="{% url 'soundboard' %}">All</a>
+</div>
+{% for person in people %}
+<div>
+    <a href="{% url 'soundboard' %}?q={{person}}">{{person}}</a>
+</div>
+{% endfor %}

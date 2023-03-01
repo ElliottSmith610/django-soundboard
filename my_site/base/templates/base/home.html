@@ -12,16 +12,7 @@
     
 
     <div>
-        <h3>Browse Clips</h3>
-        <hr>
-        <div>
-            <a href="{% url 'soundboard' %}">All</a>
-        </div>
-        {% for person in people %}
-        <div>
-            <a href="{% url 'soundboard' %}?q={{person}}">{{person}}</a>
-        </div>
-        {% endfor %}
+        {% include 'base/clip_component.html' %}
     </div>
 
     <div>
@@ -36,21 +27,7 @@
 
     <!-- Remove -->
     <div class="">
-        <h4>Recent Activity</h4>
-        <hr>
-        {% for comment in sound_messages %}
-        <div>
-            <small>{{comment.user|title}}, {{comment.created|timesince }} ago</small>
-            <small>in <a href="{% url 'individual_clip' comment.soundclip.id %}">{{comment.soundclip}}</a></small>
-            
-            
-            <p>{{comment}}</p>
-            {% if request.user == comment.user %}
-            <small><a href="{% url 'delete-comment' comment.id %}">Delete</a></small>
-            {% endif %}
-            <hr>
-        </div> 
-        {% endfor %}
+        {% include 'base/activity_component.html' %}
     </div>
 
 </div>

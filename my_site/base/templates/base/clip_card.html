@@ -25,19 +25,7 @@
         {% endif %}
 
         <div class="comment-section">
-            {% for comment in comments %}
-                <div>
-                    <hr>
-                    
-                    <small>
-                        @{{ comment.user|title}}  {{ comment.created|timesince }} ago
-                        {% if request.user == comment.user %}
-                        <a href="{% url 'delete-comment' comment.id %}">Delete</a>
-                        {% endif %}
-                    </small>
-                    <p>{{ comment }}</p>
-                </div>
-            {% endfor %}
+            {% include 'base/feed_component.html' %}
         </div>
         <hr>
 
