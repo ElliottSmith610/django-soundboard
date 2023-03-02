@@ -19,5 +19,8 @@ urlpatterns = [
     path('soundboard/delete-comment/<int:pk>', views.deleteComment, name="delete-comment"),
     path('soundboard/upload', views.uploadClip, name='upload-clip'),
 
+    path('soundboard/clips/', views.clipsPage, name="clips"),
+    path('soundboard/activities/', views.activitiesPage, name="activities"),
+
     path('test/', views.test, name='test'),
 ]

@@ -73,7 +73,7 @@ def soundboard(request):
         Q(person__name__icontains=q) | 
         Q(title__icontains=q)
         )
-    person = Person.objects.all()
+    person = Person.objects.all()[0:5]
     total_clips = SoundClip.objects.count()
     sound_count = sounds.count()
     sound_messages = Message.objects.filter(
@@ -205,3 +205,15 @@ def updateUser(request):
 
 def test(request):
     return HttpResponse("Test")
+
+def clipsPage(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    total_clips = SoundClip.objects.count()
+    person = Person.objects.filter(Q(name__icontains=q))
+    context = {'people': person, 'total_clips': total_clips}    
+    return render(request, 'base/clips.html', context)
+
+def activitiesPage(request):
+    comments = Message.objects.all()
+    context = {'comments': comments}
+    return render(request, 'base/activity.html', context)
