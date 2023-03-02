@@ -170,7 +170,10 @@ def uploadClip(request):
         form = SoundclipForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            clip = form.save(commit=False)
+            # TODO: Grab clip file, save into static folder, save path to location
+            clip.location = ""
+            clip.save()
             return redirect('home')
 
     context = {'title': 'Upload Clip', 'form': form}

@@ -10,3 +10,4 @@ class SoundclipForm(ModelForm):
     class Meta:
         model = SoundClip
         fields = '__all__'
+        exclude = ['commenters', 'location']
