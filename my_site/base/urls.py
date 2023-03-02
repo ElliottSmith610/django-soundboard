@@ -10,6 +10,7 @@ urlpatterns = [
     path('register/', views.registerUser, name="register"),
 
     path('profile/<int:pk>', views.userProfile, name='user-profile'),
+    path('update-user/', views.updateUser, name="update-user"),
 
     path('soundboard/', views.soundboard, name="soundboard"),
     path('soundboard/<int:pk>/', views.individual_clip, name="individual_clip"),

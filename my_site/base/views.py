@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from .models import SoundClip, Message, Person
-from .forms import MessageForm, SoundclipForm
+from .forms import MessageForm, SoundclipForm, UserForm
 
 
 
@@ -188,6 +188,20 @@ def deleteClip(request, pk):
     
     context = {'obj': soundclip}
     return render(request, 'base/delete.html', context)
+
+@login_required(login_url='/login')
+def updateUser(request):
+    user = request.user
+    form = UserForm(instance=user)
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('user-profile', user.id)
+
+    context = {'form': form}
+    return render(request, 'base/update-user.html', context)
 
 def test(request):
     return HttpResponse("Test")
