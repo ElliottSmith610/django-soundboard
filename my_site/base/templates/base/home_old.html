@@ -1,0 +1,34 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<style>
+    .home-container {
+        display: grid;
+        grid-template-columns: 1fr 4fr 1fr; /* Remove after */
+    }
+</style>
+
+<div class="home-container">
+    
+
+    <div>
+        {% include 'base/clip_component.html' %}
+    </div>
+
+    <div>
+        <h1>HOMEPAGE</h1>
+        <p>{{ sound_count }} soundclips</p>
+        {% for sound in sounds %}
+        <div>
+            <p>{{sound.person}} -- <a href="{% url 'individual_clip' sound.id %}">{{sound.title}}</a></p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Remove -->
+    <div class="">
+        {% include 'base/activity_component.html' %}
+    </div>
+
+</div>
+{% endblock content %}

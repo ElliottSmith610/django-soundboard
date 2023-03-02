@@ -13,7 +13,7 @@ urlpatterns = [
 
     path('soundboard/', views.soundboard, name="soundboard"),
     path('soundboard/<int:pk>/', views.individual_clip, name="individual_clip"),
-    path('soundboard/<int:pk>/edit/', views.editClip, name="edit"),
+    path('soundboard/<int:pk>/edit/', views.editClip, name="edit-clip"),
     path('soundboard/<int:pk>/delete-clip/', views.deleteClip, name="delete-clip"),
     path('soundboard/delete-comment/<int:pk>', views.deleteComment, name="delete-comment"),
     path('soundboard/upload', views.uploadClip, name='upload-clip'),

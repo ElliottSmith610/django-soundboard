@@ -74,6 +74,7 @@ def soundboard(request):
         Q(title__icontains=q)
         )
     person = Person.objects.all()
+    total_clips = SoundClip.objects.count()
     sound_count = sounds.count()
     sound_messages = Message.objects.filter(
         Q(soundclip__person__name__icontains=q)
@@ -83,6 +84,7 @@ def soundboard(request):
         'sounds': sounds,
         'people': person,
         'sound_count': sound_count,
+        'total_clips': total_clips,
         'sound_messages': sound_messages,
         }
     return render(request, 'base/home.html', context)
@@ -139,16 +141,41 @@ def deleteComment(request, pk):
 
 @login_required(login_url='/login')
 def editClip(request, pk):
+    people = Person.objects.all()
     soundclip = SoundClip.objects.get(id=pk)
     form = SoundclipForm(instance=soundclip)
 
     if request.method == 'POST':
-        form = SoundclipForm(request.POST, instance=soundclip)
-        if form.is_valid():
-            form.save()
-            return redirect('individual_clip', pk=soundclip.id)
+        person_name = request.POST.get('person')
+        person, created = Person.objects.get_or_create(name=person_name)
+        soundclip.title = request.POST.get('title')
+        soundclip.person = person
+        soundclip.description=request.POST.get('description')
+        soundclip.save()
+
+        return redirect('individual_clip', pk=soundclip.id)
         
-    context = {'title':'Edit Clip', 'form': form}
+    context = {'title':'Edit Clip', 'form': form, 'soundclip': soundclip, 'people': people}
+    return render(request, 'base/edit.html', context)
+
+@login_required(login_url='/login')
+def uploadClip(request):
+    form = SoundclipForm()
+    people = Person.objects.all()
+
+    if request.method == 'POST':
+        person_name = request.POST.get('person')
+        person, created = Person.objects.get_or_create(name=person_name)
+        SoundClip.objects.create(
+            title=request.POST.get('title'),
+            person=person,
+            description=request.POST.get('description'),
+        # TODO: Grab clip file, save into static folder, save path to location
+            location = ""
+        )
+        return redirect('home')
+    
+    context = {'title': 'Upload Clip', 'form': form, 'people': people}
     return render(request, 'base/edit.html', context)
 
 @login_required(login_url='/login')
@@ -161,23 +188,6 @@ def deleteClip(request, pk):
     
     context = {'obj': soundclip}
     return render(request, 'base/delete.html', context)
-
-@login_required(login_url='/login')
-def uploadClip(request):
-    form = SoundclipForm()
-
-    if request.method == 'POST':
-        form = SoundclipForm(request.POST)
-
-        if form.is_valid():
-            clip = form.save(commit=False)
-            # TODO: Grab clip file, save into static folder, save path to location
-            clip.location = ""
-            clip.save()
-            return redirect('home')
-
-    context = {'title': 'Upload Clip', 'form': form}
-    return render(request, 'base/edit.html', context)
 
 def test(request):
     return HttpResponse("Test")

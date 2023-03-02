@@ -1,0 +1,30 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+    .profile-container{
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+    }
+</style>
+
+<div class="profile-container">
+
+    <div class="clip-component">
+        {% include 'base/clip_component.html' %}
+    </div>
+
+    <div>
+        <h1>{{ user.username|title }}</h1>
+        
+    </div>
+    
+    <div>
+        
+        {% include 'base/activity_component.html' %}
+        
+    </div>
+</div>
+
+{% endblock content %}

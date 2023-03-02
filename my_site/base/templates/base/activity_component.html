@@ -1,15 +1,39 @@
-<h4>Recent Activity</h4>
-<hr>
-{% for comment in sound_messages %}
-<div>
-    <small><a href="{% url 'user-profile' comment.user.id %}">{{comment.user|title}}</a>, {{comment.created|timesince }} ago</small>
-    <small>in <a href="{% url 'individual_clip' comment.soundclip.id %}">{{comment.soundclip}}</a></small>
+<div class="activities">
+    <div class="activities__header">
+      <h2>Recent Activities</h2>
+    </div>
     
-    
-    <p>{{comment}}</p>
-    {% if request.user == comment.user %}
-    <small><a href="{% url 'delete-comment' comment.id %}">Delete</a></small>
-    {% endif %}
-    <hr>
-</div> 
-{% endfor %}
+    {% for comment in sound_messages %}
+    <div class="activities__box">
+      <div class="activities__boxHeader roomListRoom__header">
+        <a href="{% url 'user-profile' comment.user.id %}" class="roomListRoom__author">
+          <div class="avatar avatar--small active">
+            <img src="https://randomuser.me/api/portraits/men/13.jpg" />
+          </div>
+          <p>
+            @{{comment.user}}
+            <span>{{comment.created|timesince }} ago</span>
+          </p>
+        </a>
+        <div class="roomListRoom__actions">
+        {% if request.user == comment.user %}
+          <a href="{% url 'delete-comment' comment.id %}">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+              <title>Delete</title>
+              <path
+                d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"
+              ></path>
+            </svg>
+          </a>
+        {% endif %}
+        </div>
+      </div>
+      <div class="activities__boxContent">
+        <p>in “<a href="{% url 'individual_clip' comment.soundclip.id %}">{{comment.soundclip}}</a>”</p>
+        <div class="activities__boxRoomContent">
+            {{comment}}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
