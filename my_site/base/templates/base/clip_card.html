@@ -14,11 +14,11 @@
                   ></path>
                 </svg>
               </a>
-              <h3>Study Room</h3>
+              <h3>Soundclip | {{sound.person}}</h3>
             </div>
 
             <div class="room__topRight">
-              {% if request.user.is_authenticated %}
+              {% if request.user.is_staff %}
               <a href="{% url 'edit-clip' sound.id %}">
                 <svg
                   enable-background="new 0 0 24 24"
