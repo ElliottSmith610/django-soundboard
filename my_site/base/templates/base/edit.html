@@ -17,8 +17,16 @@
           </div>
         </div>
         <div class="layout__body">
-          <form class="form" action="" method="POST">
+          <form class="form" action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            
+            {% if title == 'Upload Clip' %}
+            <div class="form__group">
+              <label for="clip_file">File</label>
+              {{form.file}}
+              <!-- <input id="room_name" name="room_name" type="text" placeholder="E.g. Screaming like a Monkey" value=""/> -->
+            </div>
+            {% endif %}
             
             <div class="form__group">
               <label for="clip_person">Person's Name</label>
@@ -37,8 +45,6 @@
               {{form.title}}
               <!-- <input id="room_name" name="room_name" type="text" placeholder="E.g. Screaming like a Monkey" value=""/> -->
             </div>
-
-
 
             <div class="form__group">
               <label for="clip_description">Description</label>

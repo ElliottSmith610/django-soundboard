@@ -89,7 +89,10 @@
               </div> -->
               <div class="room__details">
                 {{sound.description}}
-                <!-- put player here -->
+                <audio controls> <!--  class="card-audio"-->
+                  <source src="{{ sound.file.url }}" type="audio/mp3">
+                  You browser does not support html5 audio control, unlucky.
+                </audio>
               </div>
               {# for clip in sound.tag_set.all #}
               <!-- <span class="room__topics">Clip Tags</span> -->

@@ -23,10 +23,9 @@ class Person(models.Model):
     
 class SoundClip(models.Model):
     person = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, unique=True)
     description = models.TextField(null=True, blank=True)
-    location = models.CharField(max_length=300)
-    # file = models.FileField
+    file = models.FileField(upload_to=f'sound/{person.name}/') # TODO: sort into a folder rather than none
     commenters = models.ManyToManyField(User, related_name='commenters', blank=True) ###
     # If User was already being used by another key, eg person
     # commenters = models.ManyToManyField(User, related_name='commenters', blank=True)

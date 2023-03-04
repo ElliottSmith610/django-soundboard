@@ -169,7 +169,7 @@ def uploadClip(request):
             person=person,
             description=request.POST.get('description'),
         # TODO: Grab clip file, save into static folder, save path to location
-            location = ""
+            file = request.FILES.get('file')
         )
         return redirect('home')
     
