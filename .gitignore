@@ -6,3 +6,4 @@
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/inspectionProfiles/Project_Default.xml
 my_site/static/images
+my_site/db.sqlite3
