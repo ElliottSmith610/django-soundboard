@@ -1,6 +1,5 @@
-<div class="row">
 {% for sound in sounds %}
-<div class="roomListRoom col-lg-3 col-md-4 col-sm-4">
+<div class="roomListRoom">
     <div class="roomListRoom__header">
       <a href="{% url 'individual_clip' sound.id %}" class="roomListRoom__author">
         <!-- <div class="avatar avatar--small">
@@ -42,4 +41,3 @@
     </div>
   </div>
 {% endfor %}
-</div>

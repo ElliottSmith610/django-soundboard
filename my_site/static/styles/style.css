@@ -405,11 +405,11 @@ a {
 }
 
 .layout--3 > .container > div:nth-child(2) {
-  flex-basis: 50%;
+  flex-basis: 80%; /* 50% */
 }
 
 .layout--3 > .container > div:last-child {
-  flex-basis: 25%;
+  flex-basis: 0%; /* 25% */
 }
 
 .layout--2 > .container > div:first-child {
@@ -641,10 +641,10 @@ a {
 /*========== Room List Room ==========*/
 
 .roomListRoom {
-  margin-bottom: 2.4rem;
+  margin: 1rem;
   background-color: var(--color-dark);
   border-radius: 1rem;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .roomListRoom__header {
@@ -1162,4 +1162,30 @@ a {
   font-weight: 500;
   color: var(--color-main);
   font-weight: 1.4rem;
+}
+
+/*==============================
+=>  Audio
+================================*/
+audio {
+  width: 115px;
+  height: 25px;
+}
+
+audio::-webkit-media-controls-panel {
+  -webkit-justify-content: center;
+  height: 25px;
+}
+
+/* Removes the timeline */
+audio::-webkit-media-controls-timeline {
+  display: none !important;
+}
+
+/* Removes the time stamp */
+audio::-webkit-media-controls-current-time-display {
+  display: none;
+}
+audio::-webkit-media-controls-time-remaining-display {
+  display: none;
 }
