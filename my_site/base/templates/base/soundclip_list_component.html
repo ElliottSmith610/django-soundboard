@@ -14,10 +14,14 @@
     </div>
     <div class="roomListRoom__content">
       <!-- <a href="{% url 'individual_clip' sound.id %}">{{sound.title}}</a> -->
-      <audio controls> <!--  class="card-audio"-->
+      <audio controls id="{{sound.title}}"> <!--  class="card-audio"-->
         <source src="{{ sound.file.url }}" type="audio/mp3">
         You browser does not support html5 audio control, unlucky.
       </audio>
+      <script>
+        var clip = document.getElementById("{{sound.title}}");
+        clip.volume = 0.5;
+      </script>
     </div>
     <div class="roomListRoom__meta">
       <a href="{% url 'individual_clip' sound.id %}" class="roomListRoom__joined">
