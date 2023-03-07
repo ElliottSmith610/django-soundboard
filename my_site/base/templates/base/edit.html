@@ -29,6 +29,12 @@
             {% endif %}
             
             <div class="form__group">
+              <label for="clip_title">Clip Name</label>
+              {{form.title}}
+              <!-- <input id="room_name" name="room_name" type="text" placeholder="E.g. Screaming like a Monkey" value=""/> -->
+            </div>
+
+            <div class="form__group">
               <label for="clip_person">Person's Name</label>
               <input required type="text" value="{{soundclip.person}}" name="person" id="clip_person" list="person-list"/>
               <datalist id="person-list">
@@ -38,12 +44,6 @@
                   {% endfor %}
                 </select>
               </datalist>
-            </div>
-
-            <div class="form__group">
-              <label for="clip_title">Clip Name</label>
-              {{form.title}}
-              <!-- <input id="room_name" name="room_name" type="text" placeholder="E.g. Screaming like a Monkey" value=""/> -->
             </div>
 
             <div class="form__group">
